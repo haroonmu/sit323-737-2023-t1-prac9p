@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: haroonapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: haroonapp
+  template:
+    metadata:
+      labels:
+        app: haroonapp
+    spec:
+      containers:
+        - name: haroonapp
+          image: /sit323-737-2023-t1-prac9p/haroonapp:latest
+          ports:
+            - containerPort: 8080
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 5
